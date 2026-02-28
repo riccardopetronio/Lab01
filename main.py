@@ -1,0 +1,2 @@
+class Domanda:
+    domanda: str
