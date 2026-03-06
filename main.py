@@ -10,19 +10,14 @@ class Domanda:
         self.opzione3 = opzione3
         self.opzione4 = opzione4
 
-    def stampati(self):
+    def risposte_disponibili(self):
         lista_risposte = [self.risp_gius, self.opzione2, self.opzione3, self.opzione4]
         random.shuffle(lista_risposte)
-        print(f"{self.domanda}")
-        contatore = 1
-        for r in lista_risposte:
-            print(f"{contatore}) {r}")
-            contatore += 1
-        print("")
+        return lista_risposte
 
 lista_domande: list[Domanda] = []
 
-with open('domande.txt', 'r') as file:
+with open('domande.txt', 'r', encoding='utf-8') as file:
     righe = file.readlines()
 
     contatore1 = 0
@@ -43,8 +38,6 @@ with open('domande.txt', 'r') as file:
         contatore5 += 7
         contatore6 += 7
 
-difficolta_attuale = 0
-
 
 def domande_per_il_livello_attuale(diff: int):
     risultato: list[Domanda] = []
@@ -55,10 +48,24 @@ def domande_per_il_livello_attuale(diff: int):
     return risultato
 
 
+difficolta_attuale = 0
 sbagliato = False
+risposte_corrette = 0
 
 while sbagliato == False and len(domande_per_il_livello_attuale(difficolta_attuale)) != 0:
-    for d in domande_per_il_livello_attuale(difficolta_attuale):
-        d.stampati()
-    scelta_utente = input("quale numero scegli?  ")
-    sbagliato = True
+
+    vTemp = domande_per_il_livello_attuale(difficolta_attuale)[0]
+    risposte = vTemp.risposte_disponibili()
+
+    print(f"{vTemp.domanda}\n1) {risposte[0]}\n2) {risposte[1]}\n3) {risposte[2]}\n4) {risposte[3]}\n")
+    scelta_utente = risposte[int(input("quale numero scegli?  "))-1]
+    print("")
+
+    if scelta_utente == vTemp.risp_gius:
+        difficolta_attuale += 1
+        risposte_corrette += 1
+    else:
+        sbagliato = True
+
+print(f"il tuo punteggio è: {risposte_corrette}")
+nikname = input("nikneme: ")
