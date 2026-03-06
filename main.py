@@ -69,3 +69,15 @@ while sbagliato == False and len(domande_per_il_livello_attuale(difficolta_attua
 
 print(f"il tuo punteggio è: {risposte_corrette}")
 nikname = input("nikneme: ")
+
+punteggi = []
+punteggi.append([nikname, str(risposte_corrette)])
+with open('punti.txt', 'r', encoding='utf-8') as file:
+    for riga in file:
+        vTemp = riga.strip().split(" ")
+        punteggi.append(vTemp)
+punteggi.sort(key=lambda x: x[1], reverse=True)
+
+with open('punti.txt', 'w', encoding='utf-8') as file:
+    for r in punteggi:
+        file.write(f"{r[0]} {r[1]}\n")
